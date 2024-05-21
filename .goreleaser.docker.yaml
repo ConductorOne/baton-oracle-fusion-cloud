@@ -1,0 +1,54 @@
+project_name: baton-oracle-fusion-cloud
+builds:
+  - binary: baton-oracle-fusion-cloud
+    env:
+      - CGO_ENABLED=0
+    id: linux
+    main: ./cmd/baton-oracle-fusion-cloud
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - arm64
+dockers:
+  - use: buildx
+    goos: linux
+    goarch: amd64
+    image_templates:
+      - "ghcr.io/conductorone/baton-oracle-fusion-cloud:{{ .Version }}-amd64"
+      - "ghcr.io/conductorone/baton-oracle-fusion-cloud:latest-amd64"
+    build_flag_templates:
+      - "--platform=linux/amd64"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title=baton-oracle-fusion-cloud"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--label=org.opencontainers.image.source=https://github.com/conductorone/baton-oracle-fusion-cloud"
+  - use: buildx
+    goos: linux
+    goarch: arm64
+    image_templates:
+      - "ghcr.io/conductorone/baton-oracle-fusion-cloud:{{ .Version }}-arm64"
+      - "ghcr.io/conductorone/baton-oracle-fusion-cloud:latest-arm64"
+    build_flag_templates:
+      - "--platform=linux/arm64/v8"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title=baton-oracle-fusion-cloud"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--label=org.opencontainers.image.source=https://github.com/conductorone/baton-oracle-fusion-cloud"
+docker_manifests:
+  - name_template: ghcr.io/conductorone/baton-oracle-fusion-cloud:{{ .Version }}
+    image_templates:
+      - ghcr.io/conductorone/baton-oracle-fusion-cloud:{{ .Version }}-amd64
+      - ghcr.io/conductorone/baton-oracle-fusion-cloud:{{ .Version }}-arm64
+  - name_template: ghcr.io/conductorone/baton-oracle-fusion-cloud:latest
+    image_templates:
+      - ghcr.io/conductorone/baton-oracle-fusion-cloud:latest-amd64
+      - ghcr.io/conductorone/baton-oracle-fusion-cloud:latest-arm64
+checksum:
+  disable: true
+release:
+  disable: true
+changelog:
+  skip: true
