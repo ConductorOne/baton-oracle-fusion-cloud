@@ -27,6 +27,7 @@ func main() {
 	}
 
 	cmd.Version = version
+	cmdFlags(cmd)
 
 	err = cmd.Execute()
 	if err != nil {
@@ -38,7 +39,13 @@ func main() {
 func getConnector(ctx context.Context, cfg *config) (types.ConnectorServer, error) {
 	l := ctxzap.Extract(ctx)
 
-	cb, err := connector.New(ctx)
+	configProvider, err := cfg.GetConfigProvider()
+	if err != nil {
+		l.Error("error getting OCI config provider", zap.Error(err))
+		return nil, err
+	}
+
+	cb, err := connector.New(ctx, configProvider, cfg.FusionEnvironmentID)
 	if err != nil {
 		l.Error("error creating connector", zap.Error(err))
 		return nil, err
