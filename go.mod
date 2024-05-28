@@ -3,7 +3,7 @@ module github.com/conductorone/baton-oracle-fusion-cloud
 go 1.22.3
 
 require (
-	github.com/conductorone/baton-sdk v0.1.36
+	github.com/conductorone/baton-sdk v0.1.38
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
 	github.com/oracle/oci-go-sdk/v65 v65.65.2
 	github.com/spf13/cobra v1.8.0
